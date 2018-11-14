@@ -2,18 +2,28 @@ module Test.Main where
 
 import Prelude
 
+import Data.AddressBook (AddressBook, Entry, emptyBook, findEntry, findEntryByStreetAddress, insertEntry, showEntry)
+import Data.Maybe (Maybe)
 import Effect (Effect)
 import Effect.Console (logShow)
-import Data.AddressBook (AddressBook, Entry, emptyBook, insertEntry, findEntry, showEntry)
-import Data.Maybe (Maybe)
 
-example :: Entry
-example =
+entry1 :: Entry
+entry1 =
   { firstName: "John"
   , lastName: "Smith"
   , address: { street: "123 Fake St."
              , city: "Faketown"
              , state: "CA"
+             }
+  }
+
+entry2 :: Entry
+entry2 =
+  { firstName: "John"
+  , lastName: "Smith"
+  , address: { street: "c.so di Porta Ticinese"
+             , city: "Milan"
+             , state: "MI"
              }
   }
 
@@ -25,7 +35,9 @@ printEntry firstName lastName book = showEntry <$> findEntry firstName lastName 
 
 main :: Effect Unit
 main = do
-  let book1 = insertEntry example emptyBook
+  let book1 = insertEntry entry2 (insertEntry entry1 emptyBook)
 
   logShow $ printEntry "John" "Smith" book0
   logShow $ printEntry "John" "Smith" book1
+
+  logShow $ showEntry <$> findEntryByStreetAddress "123 Fake St." book1

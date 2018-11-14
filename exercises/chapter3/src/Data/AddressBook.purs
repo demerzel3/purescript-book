@@ -37,3 +37,12 @@ findEntry firstName lastName = head <<< filter filterEntry
   where
   filterEntry :: Entry -> Boolean
   filterEntry entry = entry.firstName == firstName && entry.lastName == lastName
+
+-- Write a function which looks up an Entry given a street address,
+-- by reusing the existing code in findEntry. Test your function in PSCi.
+
+findEntryByStreetAddress :: String -> AddressBook -> Maybe Entry
+findEntryByStreetAddress streetAddress book = head $ filter filterEntry book
+  where
+    filterEntry :: Entry -> Boolean
+    filterEntry entry = entry.address.street == streetAddress
