@@ -3,7 +3,7 @@ module Data.AddressBook where
 import Prelude
 
 import Control.Plus (empty)
-import Data.List (List(..), filter, head)
+import Data.List (List(..), filter, head, nubBy)
 import Data.Maybe (Maybe)
 
 type Address =
@@ -54,3 +54,13 @@ findEntryByStreetAddress streetAddress book = head $ filter filterEntry book
 containsName :: String -> AddressBook -> Boolean
 containsName _ Nil = false
 containsName firstName (Cons x xs) = x.firstName == firstName || (containsName firstName xs)
+
+-- (4) Write a function removeDuplicates which removes duplicate address book entries
+-- with the same first and last names. Hint: Use PSCi to find the type of the Data.List.nubBy
+-- function, which removes duplicate elements from a list based on an equality predicate.
+
+removeDuplicates :: AddressBook -> AddressBook
+removeDuplicates = nubBy compare
+  where
+    compare :: Entry -> Entry -> Boolean
+    compare entry1 entry2 = entry1.firstName == entry2.firstName && entry1.lastName == entry2.lastName

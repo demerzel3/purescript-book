@@ -2,16 +2,7 @@ module Test.Main where
 
 import Prelude
 
-import Data.AddressBook (
-  AddressBook,
-  Entry,
-  containsName,
-  emptyBook,
-  findEntry,
-  findEntryByStreetAddress,
-  insertEntry,
-  showEntry
-)
+import Data.AddressBook (AddressBook, Entry, containsName, emptyBook, findEntry, findEntryByStreetAddress, insertEntry, removeDuplicates, showEntry)
 import Data.Maybe (Maybe)
 import Effect (Effect)
 import Effect.Console (logShow)
@@ -36,6 +27,16 @@ entry2 =
              }
   }
 
+entry3 :: Entry
+entry3 =
+  { firstName: "Jane"
+  , lastName: "Smith"
+  , address: { street: "c.so di Porta Ticinese"
+             , city: "Milan"
+             , state: "MI"
+             }
+  }
+
 book0 :: AddressBook
 book0 = emptyBook
 
@@ -45,6 +46,7 @@ printEntry firstName lastName book = showEntry <$> findEntry firstName lastName 
 main :: Effect Unit
 main = do
   let book1 = insertEntry entry2 (insertEntry entry1 emptyBook)
+  let book2 = insertEntry entry3 book1
 
   logShow $ printEntry "John" "Smith" book0
   logShow $ printEntry "John" "Smith" book1
@@ -54,3 +56,4 @@ main = do
   logShow $ containsName "John" book1
   logShow $ containsName "Jeff" book1
 
+  logShow $ removeDuplicates book2
