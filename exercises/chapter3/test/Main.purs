@@ -2,7 +2,16 @@ module Test.Main where
 
 import Prelude
 
-import Data.AddressBook (AddressBook, Entry, emptyBook, findEntry, findEntryByStreetAddress, insertEntry, showEntry)
+import Data.AddressBook (
+  AddressBook,
+  Entry,
+  containsName,
+  emptyBook,
+  findEntry,
+  findEntryByStreetAddress,
+  insertEntry,
+  showEntry
+)
 import Data.Maybe (Maybe)
 import Effect (Effect)
 import Effect.Console (logShow)
@@ -41,3 +50,7 @@ main = do
   logShow $ printEntry "John" "Smith" book1
 
   logShow $ showEntry <$> findEntryByStreetAddress "123 Fake St." book1
+
+  logShow $ containsName "John" book1
+  logShow $ containsName "Jeff" book1
+
